@@ -22,13 +22,13 @@
     <div class="container-fluid">
 		
         <div class="row mb-2">
-            <div class="col-2">
+            <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3">
                 <label for="ddl-cities" class="form-label">縣市</label>
                 <select id="ddl-cities" name="ddl-cities" class="form-select">
                     <option value="">請選擇</option>
                 </select>
             </div>
-            <div class="col-2">
+            <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3">
                 <label for="ddl-districts" class="form-label">區域</label>
                 <select id="ddl-districts" name="ddl-districts" class="form-select">
                     <option value="">請選擇</option>
@@ -41,11 +41,11 @@
         <table class="w-full" id="tb-pharmacy">
             <thead>
                 <tr>
-                    <th>藥局名稱</th>
-                    <th>剩餘數量</th>
-                    <th>地址</th>
-                    <th>備註</th>
-                    <th>更新時間</th>
+                    <th width="10%">藥局名稱</th>
+                    <th width="8%">數量</th>
+                    <th width="22%">地址</th>
+                    <th width="50%">備註</th>
+                    <th width="10%">更新時間</th>
                 </tr>
             </thead>
             <tbody id="tb-pharmacy-rows"></tbody>
@@ -76,17 +76,22 @@ def load_districts(event):
         districts_option.text = i["name"]
         districts_option.value = i["full_name"]
         districts_select.append(districts_option)
+    load_stores(None)
 
 # load all store and show the table
 def load_stores(event):
     districts_select = document.getElementById("ddl-districts")
     selected_citydistrict = districts_select.value
+    address = selected_citydistrict
+    if address == "":
+        cities_select = document.getElementById("ddl-cities")
+        address = cities_select.value
 
     req = XMLHttpRequest.new()
     req.open("GET", "https://kiang.github.io/data.nhi.gov.tw/antigen.json", False)
     req.send(None)
     json_data = json.loads(req.response)
-    stores = list(filter(lambda s: selected_citydistrict in s["properties"]["address"], json_data["features"]))
+    stores = list(filter(lambda s: address in s["properties"]["address"], json_data["features"]))
     stores = sorted(stores, key=lambda s: (s["properties"]["count"], s["properties"]["address"]), reverse=True)
 
     rows = document.getElementById("tb-pharmacy-rows")
