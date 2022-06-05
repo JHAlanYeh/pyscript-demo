@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title></title>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+		<link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
+		<script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+
+		
+	</head>
+	<body>
+	  <p id="dataframe"></p>
+<py-env> 
+</py-env>
+<py-script>
+import pandas as pd
+
+data = {
+  "calories": [420, 380, 390],
+  "duration": [50, 40, 45]
+}
+
+df = pd.DataFrame(data)
+
+elem = Element('dataframe')
+elem.write(df)
+</py-script>
+	</body>
+</html>
